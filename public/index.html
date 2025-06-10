@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="en"><meta charset="UTF-8" />
+<title>Synthwave Blueprint Generator</title>
+<style>
+  body{font-family:system-ui,sans-serif;max-width:40rem;margin:2rem auto}
+  textarea{width:100%;height:6rem}
+  button{margin-top:.5rem;padding:.5rem 1rem}
+  pre{background:#111;color:#0f0;padding:1rem;overflow-x:auto}
+</style>
+<h1>Synthwave Track Blueprint</h1>
+<textarea id="story" placeholder="Neon-lit night drive…"></textarea>
+<button id="go">Generate</button>
+<pre id="output">← Result appears here</pre>
+<script>
+document.getElementById('go').onclick = async () => {
+  const story = document.getElementById('story').value;
+  const res   = await fetch('/api/generate', {
+                  method:'POST',
+                  headers:{'Content-Type':'application/json'},
+                  body: JSON.stringify({ story })
+                });
+  const data  = await res.json();
+  document.getElementById('output').textContent =
+      JSON.stringify(data,null,2);
+};
+</script></html>
