@@ -5,7 +5,9 @@ const openai = new OpenAI();              // uses OPENAI_API_KEY at deploy time
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
-  const { story } = await req.json();
+  const { story } = req.body;           // ✅ works on Vercel’s Node runtime;
+  if (!story) return res.status(400).json({ error: "No story provided" });
+
 
   const messages = [
     { role: "system", content: `
